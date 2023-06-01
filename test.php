@@ -1,7 +1,7 @@
 <?php 
 
-include_once 'classes.php';
 include_once 'func.php'; 
+include_once 'classes.php';
 
 $temp = new FileHolder();
 $temp->name = "WESLEY.java";

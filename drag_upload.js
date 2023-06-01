@@ -29,3 +29,25 @@ function ajax_file_upload(file_obj) {
         xhttp.send(form_data);
     }
 }
+
+function formsubmit() {
+    var student_name = document.getElementById('student_name').value;
+    var student_mail = document.getElementById('student_mail').value;
+    var prof_mail = document.getElementById('prof_mail').value;
+    
+    //store all the submitted data in astring.
+    var formdata = 'student_name=' + student_name + '&student_mail=' + student_mail + '&prof_mail=' + prof_mail;
+	
+	// AJAX code to submit form.
+	$.ajax({
+		 type: "POST",
+		 url: "send.php",
+		 data: formdata,
+		 cache: false,
+		 success: function(html) {
+		  alert(html);
+		 }
+	});
+
+	return false;
+}

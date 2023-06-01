@@ -1,12 +1,7 @@
 <?php 
-// Start the session
-session_start();
-
 include_once 'classes.php';
 include_once 'func.php'; 
 include 'test.php';
-
-$_SESSION["USER_PROFIL"] = $user;
 
 ?>
 <!doctype html>
@@ -58,6 +53,7 @@ $_SESSION["USER_PROFIL"] = $user;
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
     #view-source {
@@ -108,22 +104,22 @@ $_SESSION["USER_PROFIL"] = $user;
 
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="nome_aluno">
-                  <label class="mdl-textfield__label" for="nome_aluno">Nome do Aluno</label>
+                  <input class="mdl-textfield__input" type="text" id="student_name">
+                  <label class="mdl-textfield__label" for="student_name">Nome do Aluno</label>
                   <span class="mdl-textfield__error">Por favor informe seu nome.</span>
                 </div>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="email" id="email_aluno" >
-                  <label class="mdl-textfield__label" for="email_aluno">Email de Contato</label>
+                  <input class="mdl-textfield__input" type="email" id="student_mail" >
+                  <label class="mdl-textfield__label" for="student_mail">Email de Contato</label>
                   <span class="mdl-textfield__error">Por favor informe um email válido.</span>
                 </div>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="email" id="email_prof" value="tarlis.portela@ifpr.edu.br">
-                  <label class="mdl-textfield__label" for="email_prof">Email do Professor</label>
+                  <input class="mdl-textfield__input" type="email" id="prof_mail" value="tarlis.portela@ifpr.edu.br">
+                  <label class="mdl-textfield__label" for="prof_mail">Email do Professor</label>
                   <span class="mdl-textfield__error">Por favor informe um email válido.</span>
                 </div>
               </div>
@@ -132,12 +128,14 @@ $_SESSION["USER_PROFIL"] = $user;
               </div>
               <div class="mdl-layout-spacer"></div>
               <div class="mdl-cell mdl-cell--3-col">
-                <a target="_blank" href="print.php" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</a>
+                <button id="submit" onclick="formsubmit()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</button>
               </div>
             </div>
           </div>
           <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
-            <?php include 'files_list.php'; ?>
+          <h6>Lista de arquivos:</h6>
+            <ul class="files-list files-list-item mdl-list">
+            </ul>
           </div>
           <?php include 'upload_card.php'; ?>
         </div>
