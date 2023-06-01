@@ -20,9 +20,11 @@ function ajax_file_upload(file_obj) {
         xhttp.onload = function(event) {
             oOutput = document.querySelector('.files-list');
             if (xhttp.status == 200 && this.responseText != "error") {
-                oOutput.innerHTML = ""+ this.responseText +"";
+                oOutput.innerHTML += ""+ this.responseText +"";
             } else {
-                oOutput.innerHTML = "Error occurred when trying to upload your file.";
+                oOutput.innerHTML += "   <li class=\"mdl-list__item\">" +
+                    "<span class=\"mdl-list__item-primary-content\">Ocorreu um erro ao carregar arquivo.</span>" +
+                "</li>";
             }
         }
   

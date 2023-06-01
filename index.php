@@ -1,8 +1,6 @@
 <?php 
-include_once 'classes.php';
 include_once 'func.php'; 
-include 'test.php';
-
+include_once 'classes.php';
 ?>
 <!doctype html>
 <!--

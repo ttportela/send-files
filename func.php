@@ -5,10 +5,9 @@ session_start();
 include_once 'classes.php';
 
 function add_file($f) {
+    $user = new Person();
     if (isset($_SESSION["USER_PROFIL"])) {
         $user = $_SESSION["USER_PROFIL"];
-    } else {
-        $user = new Person();
     }
     
     $user->add($f);
@@ -17,10 +16,9 @@ function add_file($f) {
 } 
 
 function update_form($student_name, $student_mail, $prof_mail) {
+    $user = new Person();
     if (isset($_SESSION["USER_PROFIL"])) {
         $user = $_SESSION["USER_PROFIL"];
-    } else {
-        $user = new Person();
     }
     
     $user->name = $student_name;

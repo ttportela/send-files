@@ -18,4 +18,6 @@ $user = new Person();
 $user->name = "Miguel";
 $user->add($temp);
 
+$_SESSION["USER_PROFIL"] = $user;
+
 ?>

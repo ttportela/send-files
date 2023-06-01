@@ -1,8 +1,11 @@
 <?php
-session_start();
+include_once 'func.php'; 
+include_once 'classes.php';
 
+if (isset($_SESSION["USER_PROFIL"])) {
+    $user = $_SESSION["USER_PROFIL"];
+}
 //$user = $_SESSION["USER_PROFIL"];
-include 'test.php';
 ?>
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

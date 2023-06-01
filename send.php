@@ -1,5 +1,4 @@
 <?php
-
 include_once 'func.php'; 
 
 $student_name = $_POST['student_name'];
