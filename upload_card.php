@@ -4,7 +4,7 @@
     <!--div class="demo-separator mdl-cell--1-col"></div-->
     <div class="demo-options mdl-card mdl-color--deep-purple-500 mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
         <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50">
-        <h3>Arquivos - Q.01</h3>
+        <h3>Arquivos</h3>
             <div ondrop="upload_file(event)" ondragover="return false">
                 <!--input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000"-->
 

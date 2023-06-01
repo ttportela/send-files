@@ -4,27 +4,33 @@ session_start();
 
 include_once 'classes.php';
 
-function add_file($f) {
+function getProfil() {
     $user = new Person();
     if (isset($_SESSION["USER_PROFIL"])) {
-        $user = $_SESSION["USER_PROFIL"];
+        $user = unserialize($_SESSION["USER_PROFIL"]);
     }
+    return $user;
+}
+
+function setProfil($user) {
+    $_SESSION["USER_PROFIL"] = serialize($user);
+}
+
+function add_file($f) {
+    $user = getProfil();
     
     $user->add($f);
 
-    $_SESSION["USER_PROFIL"] = $user;
+    setProfil($user);
 } 
 
 function update_form($student_name, $student_mail, $prof_mail) {
-    $user = new Person();
-    if (isset($_SESSION["USER_PROFIL"])) {
-        $user = $_SESSION["USER_PROFIL"];
-    }
+    $user = getProfil();
     
     $user->name = $student_name;
     $user->mail = $student_mail;
 
-    $_SESSION["USER_PROFIL"] = $user;
+    setProfil($user);
     $_SESSION["MAIL_TO"] = $prof_mail;
 }
 ?>

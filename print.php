@@ -2,9 +2,9 @@
 include_once 'func.php'; 
 include_once 'classes.php';
 
-if (isset($_SESSION["USER_PROFIL"])) {
-    $user = $_SESSION["USER_PROFIL"];
-}
+echo "<pre>".print_r($_SESSION, true)."</pre>";
+
+$user = getProfil();
 //$user = $_SESSION["USER_PROFIL"];
 ?>
 <!DOCTYPE html>

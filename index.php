@@ -1,6 +1,8 @@
 <?php 
 include_once 'func.php'; 
 include_once 'classes.php';
+
+$user = getProfil();
 ?>
 <!doctype html>
 <!--
@@ -93,6 +95,7 @@ include_once 'classes.php';
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
           <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+            <form id="basic-data" action="#" method="POST">
             <div class="mdl-grid mdl-cell--12-col">
               <!--div class="mdl-cell mdl-cell--12-col"-->
                 <div class="mdl-cell mdl-cell--9-col">
@@ -129,6 +132,7 @@ include_once 'classes.php';
                 <button id="submit" onclick="formsubmit()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</button>
               </div>
             </div>
+            </form>
           </div>
           <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
           <h6>Lista de arquivos:</h6>

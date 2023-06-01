@@ -13,7 +13,12 @@ class FileHolder {
 
 class Person {
     public $name;
-    public $files = array(); 
+    public $mail;
+    public $files; 
+    
+    function __construct() {
+        $this->files = array();
+    }
 
     public function add($f) {
         array_push($this->files, $f);
