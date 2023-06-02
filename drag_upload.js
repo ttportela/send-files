@@ -47,22 +47,7 @@ function formsubmit() {
 		 data: formdata,
 		 cache: false,
 		 success: function(html) {
-		  alert(html);
-		 }
-	});
-
-	return false;
-}
-
-function printsubmit(html) {
-    // AJAX code to submit form.
-	$.ajax({
-		 type: "POST",
-		 url: "send.php?send=1",
-		 data: html, //formdata,
-		 cache: false,
-		 success: function(html) {
-		  alert(html);
+		  //alert(html);
 		 }
 	});
 

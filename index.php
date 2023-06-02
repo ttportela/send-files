@@ -86,8 +86,8 @@ $user = getProfil();
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <li class="mdl-menu__item">Sobre</li>
-            <li class="mdl-menu__item">Contato</li>
+            <li class="mdl-menu__item" id="show-about">Sobre</li>
+            <li><a class="mdl-menu__item" href="http://tarlis.com.br" target="_blank">Contato</a></li>
           </ul>
         </div>
       </header>
@@ -105,21 +105,21 @@ $user = getProfil();
 
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="student_name">
+                  <input class="mdl-textfield__input" type="text" id="student_name" onchange="formsubmit()">
                   <label class="mdl-textfield__label" for="student_name">Nome do Aluno</label>
                   <span class="mdl-textfield__error">Por favor informe seu nome.</span>
                 </div>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="email" id="student_mail" >
+                  <input class="mdl-textfield__input" type="email" id="student_mail" onchange="formsubmit()" >
                   <label class="mdl-textfield__label" for="student_mail">Email de Contato</label>
                   <span class="mdl-textfield__error">Por favor informe um email válido.</span>
                 </div>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="email" id="prof_mail" value="tarlis.portela@ifpr.edu.br">
+                  <input class="mdl-textfield__input" type="email" id="prof_mail" value="tarlis.portela@ifpr.edu.br" onchange="formsubmit()">
                   <label class="mdl-textfield__label" for="prof_mail">Email do Professor</label>
                   <span class="mdl-textfield__error">Por favor informe um email válido.</span>
                 </div>
@@ -129,8 +129,8 @@ $user = getProfil();
               </div>
               <div class="mdl-layout-spacer"></div>
               <div class="mdl-cell mdl-cell--3-col">
-                <!--a target="_blank" href="print.php?send=1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</a-->
-                <button id="submit" onclick="formsubmit()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</button>
+                <a target="_blank" href="print.php?redirect=1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</a>
+                <!--button id="submit" onclick="formsubmit()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</button-->
               </div>
             </div>
             </form>
@@ -144,6 +144,30 @@ $user = getProfil();
         </div>
       </main>
     </div>
+    <dialog class="mdl-dialog" id="dialog-about">
+      <h4 class="mdl-dialog__title">Sobre</h4>
+      <div class="mdl-dialog__content">
+        <p>
+          Criado por Tarlis Portela.
+        </p>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button close" id="close-about">Fechar</button>
+      </div>
+    </dialog>
+    <script>
+      var dialog = document.querySelector('#dialog-about');
+      var showDialogButton = document.querySelector('#show-about');
+      if (!dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+      }
+      showDialogButton.addEventListener('click', function() {
+        dialog.showModal();
+      });
+      dialog.querySelector('#close-about').addEventListener('click', function() {
+        dialog.close();
+      });
+    </script>
       
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
