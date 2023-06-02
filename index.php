@@ -129,6 +129,7 @@ $user = getProfil();
               </div>
               <div class="mdl-layout-spacer"></div>
               <div class="mdl-cell mdl-cell--3-col">
+                <!--a target="_blank" href="print.php?send=1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</a-->
                 <button id="submit" onclick="formsubmit()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</button>
               </div>
             </div>
