@@ -3,7 +3,7 @@
 session_start();
 
 // BASIC CONFIG:
-$FROM = "Arquivos Tarlis <tarlis@tarlis.com.br>";
+$FROM = "Arquivos Tarlis <arquivos@tarlis.com.br>";
 $TO_MAIL = 'tarlis.portela@ifpr.edu.br';
 
 include_once 'classes.php';
@@ -74,6 +74,10 @@ function mailsend_att($content) {
     $user = getProfil();
     $to = $_SESSION["MAIL_TO"];
     $subject = "Arquivos de ".$user->name;
+    
+    $cc = null;
+    if ($user->mail != null && isset($user->mail) && $user->mail != '')
+        $cc = $user->name." <".$user->mail.">";
 
     //$content = $user->toHTML();
     //$content = content2pdf($content)->output();
@@ -86,7 +90,11 @@ function mailsend_att($content) {
     $htmlContent = $subject; 
  
     // Header for sender info 
-    $headers = "From: ".$FROM; 
+    $headers = "From: ".$FROM."";
+    //$headers .= "\nReply-To: ".$FROM."";
+    //$headers .= (($cc != null)? "\nCc: ".$cc."" : ""); 
+    
+    $to .= (($cc != null)? ",".$cc."" : ""); 
  
     // Boundary  
     $semi_rand = md5(time());  
@@ -120,6 +128,65 @@ function mailsend_att($content) {
     }
 }
 
+function mailsend_att_pdf($content) {
+    global $FROM;
+    $user = getProfil();
+    $to = $_SESSION["MAIL_TO"];
+    $subject = "Arquivos de ".$user->name;
+    
+    $cc = null;
+    if ($user->mail != null && isset($user->mail) && $user->mail != '')
+        $cc = $user->name." <".$user->mail.">";
+
+    //$content = $user->toHTML();
+    $content = content2pdf($content)->output(); // TODO pre identation to pdf
+    //$content = prepareContent($content);
+    
+    // Attachment file 
+    $file = $subject.".pdf"; 
+ 
+    // Email body content 
+    $htmlContent = $subject; 
+ 
+    // Header for sender info 
+    $headers = "From: ".$FROM."";
+    //$headers .= "\nReply-To: ".$FROM."";
+    $headers .= (($cc != null)? "\nCc: ".$cc."" : ""); 
+    
+    //$to .= (($cc != null)? ",".$cc."" : ""); 
+ 
+    // Boundary  
+    $semi_rand = md5(time());  
+    $mime_boundary = "==Multipart_Boundary_x{$semi_rand}x";  
+ 
+    // Headers for attachment  
+    $headers .= "\nMIME-Version: 1.0\n" . "Content-Type: multipart/mixed;\n" . " boundary=\"{$mime_boundary}\""; 
+ 
+    // Multipart boundary  
+    $message = "--{$mime_boundary}\n" . "Content-Type: text/html; charset=\"UTF-8\"\n" . 
+    "Content-Transfer-Encoding: 7bit\n\n" . $htmlContent . "\n\n";  
+ 
+    // Preparing attachment // octet-stream
+    $message .= "--{$mime_boundary}\n";
+    $data = chunk_split(base64_encode($content)); 
+    $message .= "Content-Type: application/pdf; name=\"".$file."\"\n" .  
+    "Content-Description: ".$file."\n" . 
+    "Content-Disposition: attachment;\n" . " filename=\"".$file."\";\n" .  
+    "Content-Transfer-Encoding: base64\n\n" . $data . "\n\n"; 
+        
+    $message .= "--{$mime_boundary}--"; 
+    $returnpath = "-f" . $FROM; 
+    
+    try{
+        // 'Obrigado por entrar em contato =D';
+        return @mail($to, $subject, $message, $headers, $returnpath);
+    } catch (Exception $e) {
+        // 'Sua mensagem n達o pode ser enviada, tente novamente mais tarde.';
+        //$this->trace($e);
+        return false;
+    }
+}
+
 function mailsend($content) {
     global $FROM;
     $user = getProfil();
@@ -132,6 +199,7 @@ function mailsend($content) {
     $body = $subject .'<br/><br/>'. prepareContent($content);
     $headers = "From: ".$FROM."\r\n" .
         'Reply-To: '.$user->name.' <'.$user->mail . ">\r\n" .
+        'Cc: '.$user->name.' <'.$user->mail . ">\r\n" .
         'MIME-Version: 1.0' . "\r\n" .
         'Content-Type: text/html; charset=UTF-8' . "\r\n";// .
     

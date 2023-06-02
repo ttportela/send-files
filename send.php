@@ -6,7 +6,8 @@ if (isset($_GET['send']) && $_GET['send'] == 1) {
     if (mailsend_att($_POST['formdata']))
         echo "Feito! Confira se o e-mail foi recebido."; //die;
     else
-        echo "Ocorreu algum problema, contate o professor.";
+        echo error_get_last()['message'];
+        //echo "Ocorreu algum problema, contate o professor.";
 } else if (isset($_GET['download']) && $_GET['download'] == 1) {
     
     //echo print_r($_POST['formdata'], true); die();
