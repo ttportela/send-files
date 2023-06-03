@@ -13,10 +13,19 @@ class FileHolder {
     }
 
     public function toLiHTML() {
-        return "   <li class=\"mdl-list__item\">
-        <span class=\"mdl-list__item-primary-content\">".$this->name."</span>
-        <span class=\"mdl-list__item-secondary-content\">".$this->size."B</span>
-    </li>";
+        if ($this->mime != null) {
+            return "   <li class=\"mdl-list__item\" style=\"padding-top: 0;padding-bottom: 0;min-height: 30px;\"><span class=\"mdl-list__item-primary-content\">
+            <i class=\"material-icons mdl-list__item-icon mdl-color-text--cyan-A400\">description</i>".$this->name."</span>
+                <span class=\"mdl-list__item-secondary-content\">".$this->size."B</span>
+            </li>";
+        } else {
+            return "   <li class=\"mdl-list__item\" style=\"padding-top: 0;padding-bottom: 0;min-height: 30px;\"><span class=\"mdl-list__item-primary-content\">
+            <i class=\"material-icons mdl-list__item-icon mdl-color-text--yellow-400\">warning</i>".
+                    $this->name."</span>
+                <span class=\"mdl-list__item-secondary-content mdl-color-text--red\">".$this->size."</span>
+            </li>";
+        }
+        
     }
 }   
 
@@ -26,6 +35,8 @@ class Person {
     public $files; 
     
     function __construct() {
+        $this->name = '';
+        $this->mail = '';
         $this->files = array();
     }
 

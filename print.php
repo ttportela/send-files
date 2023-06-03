@@ -9,15 +9,8 @@ $user = getProfil();
 
 //echo $user->toHTML();
 
-$redirect = false;
-if (isset($_GET['redirect']) && $_GET['redirect'] == 1) {
-    $redirect = true;
-}
-
-$download = false;
-if (isset($_GET['download']) && $_GET['download'] == 1) {
-    $download = true;
-}
+$redirect = isGET('redirect');
+$download = isGET('download');
 
 ?>
 <DOCTYPE html>
@@ -26,7 +19,8 @@ if (isset($_GET['download']) && $_GET['download'] == 1) {
 <title>Arquivos - <?php echo $user->name; ?></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
-<body style="max-width: 680px;">
+<body>
+<div style="max-width: 680px;" id="print_content">
     <h3><?php echo $user->name; ?></h3>
     <hr/>
     <div id="print_files">
@@ -36,6 +30,7 @@ if (isset($_GET['download']) && $_GET['download'] == 1) {
         }
     ?>
     </div>
+</div>
 
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <?php if ($redirect) { ?>
@@ -57,7 +52,9 @@ if (isset($_GET['download']) && $_GET['download'] == 1) {
         
         $( window ).on( "load", function() {
             //var html = new XMLSerializer().serializeToString(document);
-            var html = document.documentElement.innerHTML;
+            //var html = document.documentElement.innerHTML;
+            var html = document.getElementById('print_content').innerHTML;
+            html = encodeURIComponent(html);
             printsubmit(html);
         });
     </script>
@@ -97,7 +94,9 @@ if (isset($_GET['download']) && $_GET['download'] == 1) {
         
         $( window ).on( "load", function() {
             //var html = new XMLSerializer().serializeToString(document);
-            var html = document.documentElement.innerHTML;
+            //var html = document.documentElement.innerHTML;
+            var html = document.getElementById('print_content').innerHTML;
+            html = encodeURIComponent(html);
             download(html);
         });
     </script>

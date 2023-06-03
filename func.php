@@ -11,6 +11,16 @@ include_once 'classes.php';
 require_once 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 
+function hasPOST($key) {
+    return array_key_exists($key, $_POST) &&
+            isset($_POST[$key]) && "" != trim($_POST[$key]);
+}
+
+function isGET($key) {
+    return array_key_exists($key, $_GET) &&
+            isset($_GET[$key]) && ($_GET[$key] == 1);
+}
+
 function getProfil() {
     $user = new Person();
     if (isset($_SESSION["USER_PROFIL"])) {
@@ -21,6 +31,14 @@ function getProfil() {
 
 function setProfil($user) {
     $_SESSION["USER_PROFIL"] = serialize($user);
+}
+
+function clear() {
+    $user = getProfil();
+    
+    $user->files = array();
+
+    setProfil($user);
 }
 
 function add_file($f) {
@@ -39,6 +57,15 @@ function update_form($student_name, $student_mail, $prof_mail) {
 
     setProfil($user);
     $_SESSION["MAIL_TO"] = $prof_mail;
+}
+
+function getMailTo() {
+    if (array_key_exists("MAIL_TO", $_SESSION) && isset($_SESSION["MAIL_TO"])) {
+        return $_SESSION["MAIL_TO"];
+    } else {
+        $_SESSION["MAIL_TO"] = $TO_MAIL;
+        return $TO_MAIL;
+    }
 }
 
 function prepareContent($content) {
@@ -87,7 +114,12 @@ function mailsend_att($content) {
     $file = $subject.".html"; 
  
     // Email body content 
-    $htmlContent = $subject; 
+    $fileList = '<ol>';
+    foreach ($user->files as $f) {
+        $fileList .= '<li>'.$f->name . ' ('.$f->size.'B)</li>';
+    }
+    $fileList .= '</ol>';
+    $htmlContent = $subject . ' ('.count($user->files).')<br/>'.$fileList; 
  
     // Header for sender info 
     $headers = "From: ".$FROM."";

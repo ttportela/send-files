@@ -2,7 +2,15 @@
 include_once 'func.php'; 
 include_once 'classes.php';
 
+if (isGET('clear')) {
+  clear();
+  header("Location: index.php");
+  die();
+}
+
 $user = getProfil();
+$mail_to = getMailTo();
+
 ?>
 <!doctype html>
 <!--
@@ -105,31 +113,34 @@ $user = getProfil();
 
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" id="student_name" onchange="formsubmit()">
+                  <input class="mdl-textfield__input" type="text" id="student_name" value="<?php echo $user->name; ?>" onchange="formsubmit()">
                   <label class="mdl-textfield__label" for="student_name">Nome do Aluno</label>
                   <span class="mdl-textfield__error">Por favor informe seu nome.</span>
                 </div>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="email" id="student_mail" onchange="formsubmit()" >
+                  <input class="mdl-textfield__input" type="email" id="student_mail" value="<?php echo $user->mail; ?>" onchange="formsubmit()" >
                   <label class="mdl-textfield__label" for="student_mail">Email de Contato</label>
                   <span class="mdl-textfield__error">Por favor informe um email válido.</span>
                 </div>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="email" id="prof_mail" value="tarlis.portela@ifpr.edu.br" onchange="formsubmit()">
+                  <input class="mdl-textfield__input" type="email" id="prof_mail" value="<?php echo $mail_to; ?>" onchange="formsubmit()">
                   <label class="mdl-textfield__label" for="prof_mail">Email do Professor</label>
                   <span class="mdl-textfield__error">Por favor informe um email válido.</span>
                 </div>
               </div>
-              <div class="mdl-cell mdl-cell--3-col">
-                <a target="_blank" href="print.php" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--secondary">Gerar e Conferir</a>
+              <div class="mdl-cell mdl-cell--2-col">
+                <a href="index.php?clear=1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--yellow-400">Limpar</a>
               </div>
-              <div class="mdl-layout-spacer"></div>
-              <div class="mdl-cell mdl-cell--3-col">
-                <a target="_blank" href="print.php?redirect=1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</a>
+              <div class="mdl-cell mdl-cell--2-col">
+                <a target="_blank" href="print.php" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--secondary">Conferir</a>
+              </div>
+              <!--div class="mdl-layout-spacer"></div-->
+              <div class="mdl-cell mdl-cell--2-col">
+                <a target="_blank" href="print.php?redirect=1" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Enviar</a>
                 <!--button id="submit" onclick="formsubmit()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Enviar</button-->
               </div>
             </div>
