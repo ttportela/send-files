@@ -1,2 +1,2 @@
 # send-files
-File Sender - Generate PDF from files and send to email
+File Sender - Generate HTML file from uploaded files and send to an email.
