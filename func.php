@@ -3,8 +3,8 @@
 session_start();
 
 // BASIC CONFIG:
-$FROM = "Arquivos Tarlis <arquivos@tarlis.com.br>";
-$TO_MAIL = 'tarlis.portela@ifpr.edu.br';
+$FROM = "Arquivos Ciclano <arquivos@mail.com>";
+$TO_MAIL = 'user@mail.com';
 
 include_once 'classes.php';
 
