@@ -3,7 +3,7 @@ include_once 'func.php';
 include_once 'classes.php';
 
 $arr_file_types = ['text/plain', 'application/octet-stream'];
-$arr_ext = ['txt', 'java', 'html', 'py'];
+$arr_ext = ['txt', 'java', 'html', 'py', 'cpp', 'c', 'php', 'bat', 'sh', 'html', 'css', 'js', 'xml', 'xhtml', 'dtd'];
 
 //echo print_r($_FILES); die;
 $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
