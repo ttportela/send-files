@@ -135,39 +135,13 @@ $user = getProfil();
             </div>
             </form>
           </div>
-          <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
-          <h6>Lista de arquivos:</h6>
-            <ul class="files-list files-list-item mdl-list">
-            </ul>
-          </div>
+          <?php include 'files_list.php'; ?>
           <?php include 'upload_card.php'; ?>
         </div>
       </main>
     </div>
-    <dialog class="mdl-dialog" id="dialog-about">
-      <h4 class="mdl-dialog__title">Sobre</h4>
-      <div class="mdl-dialog__content">
-        <p>
-          Criado por Tarlis Portela.
-        </p>
-      </div>
-      <div class="mdl-dialog__actions">
-        <button type="button" class="mdl-button close" id="close-about">Fechar</button>
-      </div>
-    </dialog>
-    <script>
-      var dialog = document.querySelector('#dialog-about');
-      var showDialogButton = document.querySelector('#show-about');
-      if (!dialog.showModal) {
-        dialogPolyfill.registerDialog(dialog);
-      }
-      showDialogButton.addEventListener('click', function() {
-        dialog.showModal();
-      });
-      dialog.querySelector('#close-about').addEventListener('click', function() {
-        dialog.close();
-      });
-    </script>
+    <?php include 'pop_add_file.php'; ?>
+    <?php include 'pop_about.php'; ?>
       
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>

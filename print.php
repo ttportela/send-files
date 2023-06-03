@@ -14,6 +14,11 @@ if (isset($_GET['redirect']) && $_GET['redirect'] == 1) {
     $redirect = true;
 }
 
+$download = false;
+if (isset($_GET['download']) && $_GET['download'] == 1) {
+    $download = true;
+}
+
 ?>
 <DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -49,6 +54,16 @@ if (isset($_GET['redirect']) && $_GET['redirect'] == 1) {
         
         	return false;
         }
+        
+        $( window ).on( "load", function() {
+            //var html = new XMLSerializer().serializeToString(document);
+            var html = document.documentElement.innerHTML;
+            printsubmit(html);
+        });
+    </script>
+    <?php } ?>
+    <?php if ($download) { ?>
+    <script> 
         function download(content) {
             // AJAX code to submit form.
         	$.ajax({
@@ -83,8 +98,7 @@ if (isset($_GET['redirect']) && $_GET['redirect'] == 1) {
         $( window ).on( "load", function() {
             //var html = new XMLSerializer().serializeToString(document);
             var html = document.documentElement.innerHTML;
-            printsubmit(html);
-            //download(html);
+            download(html);
         });
     </script>
     <?php } ?>

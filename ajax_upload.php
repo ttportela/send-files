@@ -8,23 +8,19 @@ $arr_ext = ['txt', 'java', 'html', 'py'];
 //echo print_r($_FILES); die;
 $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
+$temp = new FileHolder();
 if (!(in_array($_FILES['file']['type'], $arr_file_types)) && !(in_array($ext, $arr_ext))) {
-    echo "   <li class=\"mdl-list__item\">
-    <span class=\"mdl-list__item-primary-content\">Tipo de arquivo inválido.</span>
-    <span class=\"mdl-list__item-secondary-content\">".$_FILES['file']['name'].": ".$_FILES["file"]["type"]."</span>
-</li>";
-    die;
+    $temp->name = $_FILES['file']['name'];
+    $temp->size = 'Tipo de arquivo inválido.';
+} else {
+    $temp->name = $_FILES['file']['name'];
+    $temp->content = file_get_contents($_FILES["file"]["tmp_name"]);
+    $temp->mime = $_FILES["file"]["type"];
+    $temp->size = $_FILES["file"]["size"];
+
+    add_file($temp); // Only adds if valid file
 }
 
-$temp = new FileHolder();
-$temp->name = $_FILES['file']['name'];
-$temp->content = file_get_contents($_FILES["file"]["tmp_name"]);
-
-add_file($temp);
-
-echo "   <li class=\"mdl-list__item\">
-        <span class=\"mdl-list__item-primary-content\">".$temp->name."</span>
-        <span class=\"mdl-list__item-secondary-content\">".$_FILES["file"]["type"]."</span>
-    </li>";
+echo $temp->toLiHTML();
 die;
 ?>
