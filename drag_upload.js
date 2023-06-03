@@ -1,6 +1,9 @@
 function upload_file(e) {
     e.preventDefault();
-    ajax_file_upload(e.dataTransfer.files[0]);
+    var files = e.dataTransfer.files;
+    for (var i = 0; i < files.length; i++) {
+        ajax_file_upload(files[i]);
+    }
 }
    
 function file_explorer() {

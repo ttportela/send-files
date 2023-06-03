@@ -63,6 +63,7 @@ function getMailTo() {
     if (array_key_exists("MAIL_TO", $_SESSION) && isset($_SESSION["MAIL_TO"])) {
         return $_SESSION["MAIL_TO"];
     } else {
+        global $TO_MAIL;
         $_SESSION["MAIL_TO"] = $TO_MAIL;
         return $TO_MAIL;
     }

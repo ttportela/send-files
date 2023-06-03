@@ -5,7 +5,7 @@
     <div class="demo-options mdl-card mdl-color--deep-purple-500 mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
         <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50">
         <h3>Upload</h3>
-            <div ondrop="upload_file(event)" ondragover="return false">
+            <div id="filedrag-dad" ondrop="upload_file(event)" ondragover="return false">
                 <!--input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000"-->
 
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -24,4 +24,32 @@
         </div>
     </div>
 <!--/form-->
+<script>
+  $(document).ready(function () {
+    $("html").on("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+ 
+    $("html").on("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+ 
+    $('#filedrag').on('dragover', function () {
+      $(this).addClass('hover');
+      return false;
+    });
+ 
+    $('#filedrag').on('dragleave', function () {
+      $(this).removeClass('hover');
+      return false;
+    });
+ 
+    $('#filedrag-dad').on('drop', function (e) {
+      $('#filedrag').removeClass('hover');
+      return false;
+    });
+  });
+</script>
 </div>

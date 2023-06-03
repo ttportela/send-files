@@ -11,7 +11,7 @@ $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 $temp = new FileHolder();
 if (!(in_array($_FILES['file']['type'], $arr_file_types)) && !(in_array($ext, $arr_ext))) {
     $temp->name = $_FILES['file']['name'];
-    $temp->size = 'Tipo de arquivo inválido.';
+    $temp->size = $_FILES["file"]["type"]. ': tipo inválido.';
     $temp->mime = null;
 } else {
     $temp->name = $_FILES['file']['name'];
