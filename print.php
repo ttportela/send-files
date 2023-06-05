@@ -15,22 +15,45 @@ $download = isGET('download');
 ?>
 <DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="UTF-8">
-<title>Arquivos - <?php echo $user->name; ?></title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/favicon.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/favicon.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/favicon.png">
+
+    <title>Arquivos - <?php echo $user->name; ?></title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
-<div style="max-width: 680px;" id="print_content">
-    <h3><?php echo $user->name; ?></h3>
-    <hr/>
-    <div id="print_files">
-    <?php
-        foreach ($user->files as $f) {
-            echo $f->toHTML();
-        }
-    ?>
+    <div style="max-width: 680px;" id="print_content">
+        <h3><?php echo $user->name; ?></h3>
+        <hr/>
+        <div id="print_files">
+        <?php
+            foreach ($user->files as $f) {
+                echo $f->toHTML();
+            }
+        ?>
+        </div>
     </div>
-</div>
+    
+    <?php include 'snack_bar.php'; ?>
 
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <?php if ($redirect) { ?>
@@ -61,17 +84,54 @@ $download = isGET('download');
     <?php } ?>
     <?php if ($download) { ?>
     <script> 
+        function base64ToArrayBuffer(data) {
+            var binaryString = window.atob(data);
+            var binaryLen = binaryString.length;
+            var bytes = new Uint8Array(binaryLen);
+            for (var i = 0; i < binaryLen; i++) {
+                var ascii = binaryString.charCodeAt(i);
+                bytes[i] = ascii;
+            }
+            return bytes;
+        }
         function download(content) {
             // AJAX code to submit form.
+            var params = window.location.search;
+            params = new URLSearchParams(params);
+            var toUrl = "send.php?download=1" + 
+                (params.get('pdf') == '1'? "&pdf=1" : "");
+                
         	$.ajax({
-        		 type: "POST",
-        		 url: "send.php?download=1",
-        		 data: 'formdata='+content, //formdata,
-        		 cache: false,
-        		 success: function(html) {
-        		    //alert(html);
-        		    //Convert the Byte Data to BLOB object.
-                    var blob = new Blob([html], { type: "applicatio/octetstream" });
+        		type: "POST",
+        		url: toUrl,
+        		data: 'formdata='+content, //formdata,
+        		cache: false,
+                xhr: function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 2) {
+                            if (xhr.status == 200) {
+                                xhr.responseType = "blob";
+                            } else {
+                                xhr.responseType = "text";
+                            }
+                        }
+                    };
+                    return xhr;
+                },
+                success: function (data) {
+                    //Convert the Byte Data to BLOB object.
+                    var blob;
+                    var fileName = 'Arquivos de <?php echo $user->name; ?>';
+                    if (params.get('pdf') == '1') {
+                        fileName += '.pdf';
+                        //blob = new File([data], fileName, { type: 'application/force-download' });
+                        blob = new Blob([data], { type: "application/pdf" });
+                    } else {
+                        fileName += '.html';
+                        blob = new Blob([data], { type: "application/octetstream" });
+                    }
+ 
                     //Check the Browser type and download the File.
                     var isIE = false || !!document.documentMode;
                     if (isIE) {
@@ -80,16 +140,14 @@ $download = isGET('download');
                         var url = window.URL || window.webkitURL;
                         link = url.createObjectURL(blob);
                         var a = $("<a />");
-                        a.attr("download", 'Arquivos de <?php echo $user->name; ?>.pdf');
+                        a.attr("download", fileName);
                         a.attr("href", link);
                         $("body").append(a);
                         a[0].click();
-                        $("body").remove(a);
+                        a.remove();
                     }
-        		 }
-        	});
-        
-        	return false;
+                }
+            });
         }
         
         $( window ).on( "load", function() {
@@ -97,9 +155,12 @@ $download = isGET('download');
             //var html = document.documentElement.innerHTML;
             var html = document.getElementById('print_content').innerHTML;
             html = encodeURIComponent(html);
+            message('Preparando download de ' + html.length + ' Bytes de dados.');
             download(html);
         });
     </script>
     <?php } ?>
+    
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </body>
 </html>

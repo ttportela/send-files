@@ -3,8 +3,8 @@
 session_start();
 
 // BASIC CONFIG:
-$FROM = "Arquivos Ciclano <arquivos@mail.com>";
-$TO_MAIL = 'user@mail.com';
+$FROM = "Arquivos Tarlis <arquivos@tarlis.com.br>";
+$TO_MAIL = 'tarlis.portela@ifpr.edu.br';
 
 include_once 'classes.php';
 
@@ -87,14 +87,18 @@ function content2pdf($content) {
     $dompdf->loadHtml(prepareContent($content));
 //    $dompdf->loadHtml('<DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'.$content.'</html>');
     $dompdf->setPaper('A4', 'portrait');
-    //$dompdf->add_info('Title', 'Your meta title');
+    //$dompdf->add_info('Title', 'Arquivos de Prova');
     $dompdf->render();
     // Output the generated PDF
     //$dompdf->stream("Teste.pdf", array("Attachment" => 0)); die();
-    file_put_contents('filename.pdf', $dompdf->output());
+    //file_put_contents('filename.pdf', $dompdf->output());
     //file_put_contents('filename.html', $content);
     //echo 'DEU'; die();
     return $dompdf;
+}
+
+function content2html($content) {
+    return prepareContent($content);
 }
 
 function mailsend_att($content) {
@@ -244,60 +248,6 @@ function mailsend($content) {
         return true;
     } catch (Exception $e) {
         // 'Sua mensagem não pode ser enviada, tente novamente mais tarde.';
-        //$this->trace($e);
-        return false;
-    }
-}
-
-function mailsend_att_bkp($content) {
-    global $FROM;
-    $user = getProfil();
-    $to = $_SESSION["MAIL_TO"];
-    $subject = "Arquivos de ".$user->name;
-
-    //$content = $user->toHTML();
-    //$content = content2pdf($content)->output();
-    $content = prepareContent($content);
-    
-    $encoded_content = chunk_split(base64_encode($content));
-    $boundary = md5("random"); // define boundary with a md5 hashed value
- 
-    //header
-    $headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
-    $headers .= "From: ".$FROM."\r\n"; // Sender Email
-    $headers .= "Reply-To: ".$user->name.' <'.$user->mail.">\r\n"; // Email address to reach back
-    $headers .= "Content-Type: multipart/mixed;"; // Defining Content-Type
-    $headers .= "boundary = $boundary\r\n"; //Defining the Boundary
-         
-    //plain text
-    $body = "--$boundary\r\n";
-    $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
-    $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-    $body .= chunk_split(base64_encode($subject));
-         
-    //attachment
-    $body .= "--$boundary\r\n";
-    $body .="Content-Type:text/html; name=".$subject.".html\r\n";
-    $body .="Content-Disposition: attachment; filename=".$subject.".html\r\n";
-//    $body .="Content-Type:application/pdf; name=".$subject.".pdf\r\n";
-//    $body .="Content-Disposition: attachment; filename=".$subject.".pdf\r\n";
-    $body .="Content-Transfer-Encoding: base64\r\n";
-    $body .="X-Attachment-Id: ".rand(1000, 99999)."\r\n\r\n";
-    $body .= $encoded_content; // Attaching the encoded file with email
-    
-//    $message = $content;//"Seguem os arquivos de ".$user->name;
-//    $headers = "From: ".$FROM."\r\n" .
-//        'Reply-To: '.$user->name.' <'.$user->mail . ">\r\n" .
-//        'MIME-Version: 1.0' . "\r\n" .
-//        'Content-Type: text/html; charset=UTF-8' . "\r\n";// .
-////		    'X-Mailer: PHP/' . phpversion();
-    
-    try{
-        @mail($to, $subject, $body, $headers);
-        // 'Obrigado por entrar em contato =D';
-        return true;
-    } catch (Exception $e) {
-        // 'Sua mensagem n達o pode ser enviada, tente novamente mais tarde.';
         //$this->trace($e);
         return false;
     }

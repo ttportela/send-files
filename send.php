@@ -10,8 +10,19 @@ if (isGET('send')) {
         echo "Ocorreu algum problema, contate o professor.";
 } else if (isGET('download')) {
     
-    //echo print_r($_POST['formdata'], true); die();
-    echo content2pdf($_POST['formdata'])->output(); die();
+    //echo strlen(content2pdf($_POST['formdata'])->output()); die();
+    if (isGET('pdf')) {
+        //file_put_contents('teste.pdf', content2pdf($_POST['formdata'])->output());
+        echo content2pdf($_POST['formdata'])->output();
+        /*$out = content2pdf($_POST['formdata'])->output();
+        header("Content-Type: application/pdf");
+        header("Content-Disposition: attachment; filename=\"Arquivos.pdf\"");
+        header("Content-Length: " . filesize($out));
+        echo $out; */
+        //content2pdf($_POST['formdata'])->stream();
+    } else {
+        echo content2html($_POST['formdata']); die();
+    }
     
 } else {
     $student_name = $_POST['student_name'];
