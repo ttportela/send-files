@@ -12,13 +12,18 @@ if (isGET('send')) {
     
     //echo strlen(content2pdf($_POST['formdata'])->output()); die();
     if (isGET('pdf')) {
-        //file_put_contents('teste.pdf', content2pdf($_POST['formdata'])->output());
-        echo content2pdf($_POST['formdata'])->output();
-        /*$out = content2pdf($_POST['formdata'])->output();
-        header("Content-Type: application/pdf");
+        
+        //echo utf8_encode(content2pdf($_POST['formdata'])->output());
+        $out = content2pdf($_POST['formdata'])->output();
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/pdf; charset=UTF-8');
+        //header("Content-Type: application/pdf");
         header("Content-Disposition: attachment; filename=\"Arquivos.pdf\"");
         header("Content-Length: " . filesize($out));
-        echo $out; */
+        
+        //file_put_contents('teste.txt', $out);
+        
+        echo $out;
         //content2pdf($_POST['formdata'])->stream();
     } else {
         echo content2html($_POST['formdata']); die();

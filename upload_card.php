@@ -16,11 +16,11 @@
 
             </div>
         </div>
-        <!--div class="mdl-card__actions mdl-card--border">
+        <div class="mdl-card__actions mdl-card--border">
         <div class="mdl-layout-spacer"></div>
         <div id="submitbutton">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--blue-grey-50" type="submit">Carregar</button>
-        </div-->
+            <button id="show-add_file" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--blue-grey-50" type="submit">Colar Arquivo</button>
+        </div>
         </div>
     </div>
 <!--/form-->

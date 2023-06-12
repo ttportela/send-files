@@ -106,20 +106,11 @@ $download = isGET('download');
         		url: toUrl,
         		data: 'formdata='+content, //formdata,
         		cache: false,
-                xhr: function () {
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState == 2) {
-                            if (xhr.status == 200) {
-                                xhr.responseType = "blob";
-                            } else {
-                                xhr.responseType = "text";
-                            }
-                        }
-                    };
-                    return xhr;
-                },
+                /*xhrFields: {
+                      responseType: 'blob'
+                },*/
                 success: function (data) {
+                    //console.log(data);
                     //Convert the Byte Data to BLOB object.
                     var blob;
                     var fileName = 'Arquivos de <?php echo $user->name; ?>';
@@ -127,6 +118,7 @@ $download = isGET('download');
                         fileName += '.pdf';
                         //blob = new File([data], fileName, { type: 'application/force-download' });
                         blob = new Blob([data], { type: "application/pdf" });
+                        //blob = b64toBlob(data, "application/pdf");
                     } else {
                         fileName += '.html';
                         blob = new Blob([data], { type: "application/octetstream" });
@@ -149,6 +141,27 @@ $download = isGET('download');
                 }
             });
         }
+        function b64toBlob(content, contentType) {
+            contentType = contentType || '';
+            const sliceSize = 512;
+             // method which converts base64 to binary
+            const byteCharacters = window.atob(content); 
+        
+            const byteArrays = [];
+            for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                const slice = byteCharacters.slice(offset, offset + sliceSize);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            const blob = new Blob(byteArrays, {
+                type: contentType
+            }); // statement which creates the blob
+            return blob;
+        };
         
         $( window ).on( "load", function() {
             //var html = new XMLSerializer().serializeToString(document);

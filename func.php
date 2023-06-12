@@ -80,14 +80,15 @@ function prepareContent($content) {
 }
 
 function content2pdf($content) {
-    //$user = getProfil();
+    $user = getProfil();
     //$content = $user->toHTML();
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
-    $dompdf->loadHtml(prepareContent($content));
+    $dompdf->loadHtml(prepareContent($content), 'UTF-8');
 //    $dompdf->loadHtml('<DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'.$content.'</html>');
     $dompdf->setPaper('A4', 'portrait');
-    //$dompdf->add_info('Title', 'Arquivos de Prova');
+    $dompdf->add_info('Title', "Arquivos");
+    $dompdf->add_info('Author', $user->name);
     $dompdf->render();
     // Output the generated PDF
     //$dompdf->stream("Teste.pdf", array("Attachment" => 0)); die();
